@@ -1,0 +1,9 @@
+---
+- name: Copy index.html file to all application servers at '/opt/data'
+  hosts: "{{ targetHost }}"
+  become: yes
+  tasks:
+    - name: copy
+      copy:
+        src: /usr/src/data/index.html
+        dest: /opt/data/index.html 
