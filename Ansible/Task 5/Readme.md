@@ -1,4 +1,31 @@
+``` yaml
+[app_servers]
+stapp01 ansible_host=172.16.238.10 ansible_user=tony ansible_password=Ir0nM@n
+stapp02 ansible_host=172.16.238.11 ansible_user=steve ansible_password=Am3ric@ 
+stapp03 ansible_host=172.16.238.12 ansible_user=banner ansible_password=BigGr33n
 
+[lb_server]
+stlb01 ansible_host=172.16.238.14 ansible_user=loki ansible_password=Mischi3f
+
+[db_server]
+stdb01 ansible_host=172.16.239.10 ansible_user=peter ansible_password=Sp!dy
+
+[storage_server]
+ststor01 ansible_host=172.16.238.15 ansible_user=natasha ansible_password=Bl@kW
+
+[backup_server]
+stbkp01 ansible_host=172.16.238.16 ansible_user=clint ansible_password=H@wk3y3
+
+[mail_server]
+stmail01 ansible_host=172.16.238.17 ansible_user=groot ansible_password=Gr00T123
+
+[jump_server]
+jump_host ansible_host=jump_host.stratos.xfusioncorp.com ansible_user=thor ansible_password=mjolnir123
+
+[ci_cd_server]
+jenkins ansible_host=172.16.238.19 ansible_user=jenkins ansible_password=j@rv!s
+
+```
 
 ``` yaml
 ---
