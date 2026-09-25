@@ -19,7 +19,7 @@ The Nautilus DevOps team is expanding their AWS infrastructure and requires the 
 resource "aws_vpc" "nautilus-priv" {
     cidr_block = var.KKE_VPC_CIDR 
     tags = {
-        Name = var.KKE_vpc_name
+        Name = "nautilus-priv-vpc"
     }
 }
 
@@ -27,7 +27,7 @@ resource "aws_subnet" "nautilus-priv" {
     vpc_id = aws_vpc.nautilus-priv.id
     cidr_block = var.KKE_SUBNET_CIDR
     tags = {
-        Name = var.KKE_subnet_name
+        Name = "nautilus-priv-subnet"
     }
     map_public_ip_on_launch = false # Disables auto-assign public IPv4 address
 
@@ -35,12 +35,13 @@ resource "aws_subnet" "nautilus-priv" {
 
 resource "aws_instance" "nautilus-priv" {
   ami = "ami-0c55b159cbfafe1f0"
-  instance_type = "t3.micro"
+  instance_type = "t2.micro"
 
   tags = {
-    Name = var.KKE_instance_name
+    Name = "nautilus-priv-ec2"
   }
 }
+
 
 ```
 
@@ -48,40 +49,31 @@ resource "aws_instance" "nautilus-priv" {
 ### `variables.tf`
 
 ```hcl
-variable "KKE_vpc_name" {
-    default = "nautilus-priv-vpc"
-    type = string
-}
-variable "KKE_subnet_name" {
-    default = "nautilus-priv-subnet"
-    type = string
-}
 variable "KKE_VPC_CIDR" {
     default = "10.0.0.0/16"
     type = string
 }
+
 variable "KKE_SUBNET_CIDR" {
     default = "10.0.1.0/24"
     type = string
 }
-
-variable "KKE_instance_name" {
-    default = "nautilus-priv-ec2"
-    type = string
-}
-
 ```
 
 ### `output.tf`
 
 ```hcl
 
+output "KKE_vpc_name" {
+    value = aws_vpc.nautilus-priv.tags["Name"]
+}
+
 output "KKE_subnet_name" {
     value = aws_subnet.nautilus-priv.tags["Name"]
 }
 
-output "kke_vpc_name" {
-    value = aws_vpc.nautilus-priv.tags["Name"]
+output "KKE_ec2_private" {
+    value = aws_instance.nautilus-priv.tags["Name"]
 }
 ```
 -----
@@ -94,7 +86,6 @@ resource "aws_vpc" "datacenter-priv" {
         Name = "datacenter-priv-vpc"
     }
 }
-
 
 resource "aws_subnet" "datacenter-priv" {
     cidr_block = var.KKE_SUBNET_CIDR
