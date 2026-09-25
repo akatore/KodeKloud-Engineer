@@ -126,7 +126,7 @@ output "KKE_subnet_name" {
 output "KKE_ec2_private" {
   value = aws_instance.ec2.tags["Name"]
 }
-
+```
 ## Referrences
 
 - [VPC Resource](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc)
@@ -151,6 +151,6 @@ output "KKE_ec2_private" {
 - **Private Connectivity**: Instance requires NAT Gateway or VPC Endpoints for internet access
 - **AWS Reserved IPs**: First 4 and last IP in each subnet are reserved by AWS
 - **Instance Placement**: Subnet determines availability zone and IP range for the instance
-```
+
 
 <img width="817" height="575" alt="image" src="https://github.com/user-attachments/assets/89b22ff3-d32b-49fb-94fe-9d8cc31587c0" />
