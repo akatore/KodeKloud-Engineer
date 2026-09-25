@@ -1,18 +1,18 @@
-The core difference between variables.tf and terraform.tfvars comes down to declaration vs. assignment. Think of variables.tf as the blueprint that defines what data is required, and terraform.tfvars as the actual data sheet used for a specific deployment. [1, 2, 3] 
+The core difference between variables.tf and terraform.tfvars comes down to `declaration vs. assignment.` Think of variables.tf as the blueprint that defines what data is required, and terraform.tfvars as the actual data sheet used for a specific deployment. [1, 2, 3] 
 ## Quick Comparison
 
 | Feature | variables.tf (The Schema) | terraform.tfvars (The Data) |
 |---|---|---|
 | Purpose | Declares the existence of a variable. | Assigns a specific value to an already declared variable. |
-| Content | Variable names, data types, descriptions, constraints, and fallback defaults. | Simple key = "value" pairs. |
-| Environment Specific? | No. It defines the structure for all environments. | Yes. You can create multiple files (e.g., dev.tfvars, prod.tfvars). |
+| Content | Variable names, data types, descriptions, constraints, and fallback defaults. | Simple `key = "value"` pairs. |
+| Environment Specific? | No. It defines the structure for all environments. | Yes. You can create multiple files (e.g., `dev.tfvars`, `prod.tfvars`). |
 | Required? | Yes, if you want to use input variables in your configuration. | No. Values can come from defaults, CLI flags, or environment variables. |
 
 ------------------------------
 ## 1. variables.tf — The Declaration
 This file tells Terraform, "Hey, look out for a variable with this name, this data type, and these validation rules." While you can put a default value here, its primary job is defining the input's shape. [3, 4, 5] 
-Example (variables.tf):
-
+Example (`variables.tf`):
+```
 variable "instance_type" {
   type        = string
   description = "The size of the EC2 instance"
@@ -27,15 +27,15 @@ variable "environment" {
   type        = string
   default     = "staging" # Sensible fallback if no value is assigned elsewhere
 }
-
-## 2. terraform.tfvars — The Assignment
+```
+## 2. `terraform.tfvars` — The Assignment
 This file provides the actual value for the execution. You cannot declare a new variable here; you can only populate variables that have already been defined in a .tf file. [4, 6, 7] 
 Terraform automatically reads any file in the root directory named exactly terraform.tfvars or ending in *.auto.tfvars. [1, 8] 
 Example (terraform.tfvars):
-
+```
 instance_type = "t3.micro"
 environment   = "production" # Overrides the default "staging" value
-
+```
 ------------------------------
 ## Where does Terraform look first? (Order of Precedence)
 If a variable has a value set in both files (and via other methods), [Terraform handles overrides](https://developer.hashicorp.com/terraform/language/values/variables) in this strict order (lowest to highest priority): [9] 
