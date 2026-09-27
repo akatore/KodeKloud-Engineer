@@ -76,4 +76,61 @@ docker --version
 
 ```
 
+---
+
+Breakdown of what Docker and Docker Compose are, why you are performing these specific steps, and how it all connects to your goal.
+
+---
+
+### 1. What are Docker CE and Docker Compose?
+
+* **Docker CE (Community Edition):** The core containerization platform. It allows you to package an application along with all its dependencies (libraries, code, configurations) into a standardized unit called a **container**. Containers run isolated from each other and the host OS, ensuring your application works identically across development, testing, and production environments.
+* **Docker Compose:** A tool for defining and running multi-container Docker applications using a single YAML configuration file (`docker-compose.yml`). Instead of starting multiple containers manually with long terminal commands, Compose lets you launch and configure an entire stack (e.g., a web server, API, and database) with a single command: `docker compose up`.
+
+---
+
+### 2. Step-by-Step Breakdown: What Each Command Does & Why
+
+Here is why each step in the setup process was necessary and what happens behind the scenes:
+
+#### Step A: Installing Prerequisites (`yum-utils`, `device-mapper-persistent-data`, `lvm2`)
+
+* **What it means:** Installs lower-level Linux utilities for repository management and storage drivers.
+* **Why we do it:** Docker needs `yum-config-manager` (provided by `yum-utils`) to add new software repositories, and requires device-mapper capabilities to efficiently manage container filesystems and storage layers.
+
+#### Step B: Adding the Official Docker Repository
+
+* **What it means:** Configures `yum` (the package manager) to fetch Docker directly from Docker's official distribution servers rather than default OS repositories, which often contain outdated versions.
+* **Why we do it:** Ensures you get the latest stable releases of `docker-ce` and `docker-compose-plugin`.
+
+#### Step C: Installing Docker CE & Docker Compose (`docker-ce`, `docker-ce-cli`, `containerd.io`, `docker-compose-plugin`)
+
+* **What it means:**
+* `docker-ce`: The core background daemon (`dockerd`) that manages containers, images, networks, and volumes.
+* `docker-ce-cli`: The command-line tool that lets you type `docker` commands in the terminal.
+* `containerd.io`: The underlying container runtime that actually spawns and executes containers.
+* `docker-compose-plugin`: Adds the `docker compose` subcommand to manage multi-container setups.
+
+
+* **Why we do it:** Fulfills Requirement #1 of the task by equipping App Server 1 with the full suite of software needed to build and run containerized apps.
+
+#### Step D: Starting and Enabling the Docker Service (`systemctl start/enable docker`)
+
+* **What it means:**
+* `systemctl start docker`: Immediately boots up the Docker background process (`dockerd`).
+* `systemctl enable docker`: Configures Linux to start the Docker service automatically whenever the server boots or reboots.
+
+
+* **Why we do it:** Fulfills Requirement #2 of the task. Installing packages only places the files on disk; without starting the background service, running any `docker` command will result in a connection error (`Cannot connect to the Docker daemon`).
+
+---
+
+### 3. What is the Big Picture Goal?
+
+The overall goal for the DevOps team is to **transition traditional application deployments into containerized workloads**:
+
+1. **Environment Consistency:** Eliminates the classic "it works on my machine" problem by bundling the application and its environment together.
+2. **Simplified Testing & Deployment:** Instead of manually configuring databases, web servers, and runtime dependencies on every server, the team can spin up test environments instantly using Docker containers and Docker Compose scripts.
+3. **Infrastructure Readiness:** Preparing **App Server 1** (`stapp01`) with Docker ensures it is ready to host and test containerized components for Project Nautilus.
+
 Once confirmed, switch back to the lab window and click **Check** to submit your work.
