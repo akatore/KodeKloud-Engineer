@@ -84,7 +84,15 @@ Breakdown of what Docker and Docker Compose are, why you are performing these sp
 
 ### 1. What are Docker CE and Docker Compose?
 
-* **Docker CE (Community Edition):** The core containerization platform. It allows you to package an application along with all its dependencies (libraries, code, configurations) into a standardized unit called a **container**. Containers run isolated from each other and the host OS, ensuring your application works identically across development, testing, and production environments.
+* **Docker CE (Community Edition):** The core containerization platform. Docker CE (Community Edition) is a free, open-source containerization platform used to build, test, and run applications inside isolated environments called containers. It allows you to package an application along with all its dependencies (libraries, code, configurations) into a standardized unit called a **container**. Containers run isolated from each other and the host OS, ensuring your application works identically across development, testing, and production environments.
+
+  ## Core Components
+  
+  * Docker Daemon (dockerd): The background service that manages Docker containers, images, networks, and storage.
+  * Docker CLI (docker-ce-cli): The command-line interface used by operators and developers to send commands to the daemon.
+  * Containerd (containerd.io): The underlying industry-standard container runtime that executes container lifecycles.
+
+
 * **Docker Compose:** A tool for defining and running multi-container Docker applications using a single YAML configuration file (`docker-compose.yml`). Instead of starting multiple containers manually with long terminal commands, Compose lets you launch and configure an entire stack (e.g., a web server, API, and database) with a single command: `docker compose up`.
 
 ---
