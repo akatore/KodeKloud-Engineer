@@ -19,6 +19,14 @@ The Nautilus DevOps team is expanding their AWS infrastructure and requires the 
 2. Right-click under the `EXPLORER` section in `VS Code` and select `Open in Integrated Terminal` to launch the terminal.
 3. Before submitting the task, ensure that `terraform plan` returns `No changes. Your infrastructure matches the configuration.`
 
+### `knowledge`
+
+Disabling **auto-assign public IP** (`map_public_ip_on_launch = false`) ensures that any EC2 instance launched inside this subnet **does not receive a public IPv4 address** automatically.
+
+This is a key requirement for creating a truly private subnet. Without a public IP, the instance cannot communicate directly with or be accessed from the public internet, keeping your infrastructure isolated as required by your architecture.
+
+*How to verify:* You can verify this setting is applied correctly by checking your `main.tf` configuration to ensure `map_public_ip_on_launch` is explicitly set to `false` inside your `aws_subnet` resource block, and by running `terraform plan` to confirm no configuration drift.
+
 
 ### `variables.tf`
 ```
@@ -50,6 +58,7 @@ resource "aws_vpc" "vpc" {
 resource "aws_subnet" "subnet" {
     vpc_id = aws_vpc.vpc.id
     cidr_block = var.KKE_SUBNET_CIDR
+    map_public_ip_on_launch = false
     tags = {
         Name = "${var.prefix}-subnet"
     }
